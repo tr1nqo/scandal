@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://tr1nqo.github.io/scandal/sitemap.xml
