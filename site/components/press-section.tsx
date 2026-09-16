@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Reveal } from '@/components/reveal'
 import { useDict } from '@/lib/i18n'
+import { asset } from '@/lib/asset'
 
 export function PressSection() {
   const t = useDict()
@@ -14,7 +15,7 @@ export function PressSection() {
           <div className="space-y-4">
             <figure className="relative aspect-[3/4] overflow-hidden border border-border bg-card">
               <Image
-                src="/images/brand/press-novaya.jpg"
+                src={asset('/images/brand/press-novaya.jpg')}
                 alt={t.press.text}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -23,7 +24,7 @@ export function PressSection() {
             </figure>
             <figure className="relative aspect-[16/9] overflow-hidden border border-border bg-card">
               <Image
-                src="/images/brand/card-experience.jpg"
+                src={asset('/images/brand/card-experience.jpg')}
                 alt="Sonya Scandal — International Business Architect & Industry Mentor"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"

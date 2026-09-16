@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/reveal'
 import { useDict } from '@/lib/i18n'
+import { asset } from '@/lib/asset'
 
 export function HeroSection() {
   const t = useDict()
@@ -63,7 +64,7 @@ export function HeroSection() {
                 />
                 <div className="relative aspect-[4/5] overflow-hidden bg-secondary">
                   <Image
-                    src="/images/brand/founder-portrait.jpg"
+                    src={asset('/images/brand/founder-portrait.jpg')}
                     alt="Олена Гавриш — засновниця Sonya Scandal"
                     fill
                     priority

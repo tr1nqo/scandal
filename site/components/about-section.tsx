@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Reveal } from '@/components/reveal'
 import { useDict } from '@/lib/i18n'
+import { asset } from '@/lib/asset'
 
 export function AboutSection() {
   const t = useDict()
@@ -16,7 +17,7 @@ export function AboutSection() {
               <Reveal y={48}>
                 <div className="relative aspect-[4/5] overflow-hidden bg-secondary">
                   <Image
-                    src="/images/brand/atelier-sketch.jpg"
+                    src={asset('/images/brand/atelier-sketch.jpg')}
                     alt="Робота над ескізом і підбір тканин у цеху"
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"
@@ -81,7 +82,7 @@ export function AboutSection() {
                 </div>
                 <div className="relative hidden h-20 w-20 shrink-0 sm:block">
                   <Image
-                    src="/images/brand/crest.jpg"
+                    src={asset('/images/brand/crest.jpg')}
                     alt="Емблема Sonya Scandal — Creativity & Strategy"
                     fill
                     sizes="80px"

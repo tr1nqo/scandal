@@ -7,4 +7,4 @@
  * fallback below — it must match the real domain, without a trailing slash.
  */
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ?? 'https://sonyascandal.com'
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ?? 'https://tr1nqo.github.io/scandal'

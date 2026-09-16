@@ -20,6 +20,13 @@ const nextConfig = {
 
   basePath,
 
+  // Пробрасываем basePath в код страниц: Next сам подставляет его только
+  // в свои внутренние файлы, а пути к картинкам и видео из public
+  // собираются вручную через lib/asset.ts.
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
+
   // /impressum превращается в /impressum/index.html — самая надёжная форма
   // для GitHub Pages и любого другого статического хостинга.
   trailingSlash: true,

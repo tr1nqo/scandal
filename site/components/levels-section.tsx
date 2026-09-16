@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Reveal } from '@/components/reveal'
 import { useDict } from '@/lib/i18n'
+import { asset } from '@/lib/asset'
 
 export function LevelsSection() {
   const t = useDict()
@@ -35,7 +36,7 @@ export function LevelsSection() {
           <Reveal y={48} className="lg:col-span-5">
             <div className="relative mx-auto aspect-[3/4] w-full max-w-sm overflow-hidden bg-secondary">
               <Image
-                src="/images/brand/levels-tower.jpg"
+                src={asset('/images/brand/levels-tower.jpg')}
                 alt={`${t.levels.items[0].title} → ${t.levels.items[2].title}`}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"

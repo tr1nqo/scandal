@@ -2,6 +2,7 @@
 
 import { Reveal } from '@/components/reveal'
 import { useDict } from '@/lib/i18n'
+import { asset } from '@/lib/asset'
 
 function VideoCard({
   src,
@@ -40,8 +41,8 @@ export function PortfolioSection() {
   const videos = clips.map((clip, i) => {
     const n = String(i + 1).padStart(2, '0')
     return {
-      src: `/video/brunello-${n}.mp4`,
-      poster: `/video/brunello-${n}-poster.jpg`,
+      src: asset(`/video/brunello-${n}.mp4`),
+      poster: asset(`/video/brunello-${n}-poster.jpg`),
       title: clip.title,
       caption: clip.caption,
     }
