@@ -1,9 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Next.js site to Pages
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -11,58 +10,46 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: site
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v3
         with:
           version: 9
 
-      - name: Install Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: site/pnpm-lock.yaml
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: cd site && pnpm install
 
-      - name: Build static site
-        env:
-          STATIC_EXPORT: '1'
-          NEXT_PUBLIC_SITE_URL: https://sonyascandal.com
-          # NEXT_BASE_PATH: /sonya-scandal
-        run: pnpm build
-
-      - name: Disable Jekyll processing
-        run: touch out/.nojekyll
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+      - name: Build with Next.js
+        run: cd site && pnpm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/out
+          path: ./site/out
 
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
