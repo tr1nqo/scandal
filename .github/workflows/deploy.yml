@@ -36,11 +36,12 @@ jobs:
       - name: Install dependencies
         run: cd site && pnpm install
 
+            - name: Install dependencies
+        run: cd site && pnpm install --no-frozen-lockfile
+
       - name: Build with Next.js
         run: cd site && pnpm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
         with:
           path: ./site/out
 
