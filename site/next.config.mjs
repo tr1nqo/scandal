@@ -2,6 +2,16 @@
 
 const isDev = process.env.NODE_ENV !== 'production'
 
+// Static export is switched on by the CI build (STATIC_EXPORT=1), so locally
+// `pnpm dev` / `pnpm build` still run the site as a normal Next.js app with
+// real security headers, while GitHub Pages gets plain HTML in ./out.
+const isStaticExport = process.env.STATIC_EXPORT === '1'
+
+// GitHub Pages serves a project repo under /<repo-name>/. Set NEXT_BASE_PATH
+// to "/<repo-name>" in that case. Leave it empty for a custom domain or for a
+// <user>.github.io repo.
+const basePath = process.env.NEXT_BASE_PATH ?? ''
+
 // A reasonably strict baseline CSP. Next.js self-hosts the Google fonts used
 // here (next/font/google) at build time, so no runtime font/style requests
 // leave the site. Vercel Analytics (opt-in only, see components/analytics-gate.tsx)
@@ -35,28 +45,40 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
-  output: 'export',
-  // The whole site renders on the client and has no API routes or server
-  // actions, so it can be exported as plain static files and hosted free on
-  // any CDN (Cloudflare Pages, Netlify, GitHub Pages). To do that, uncomment
-  // the line below and run `pnpm build` — the result lands in ./out.
-  // Note: with static export the headers() block further down is NOT applied,
-  // because there is no Next.js server; public/_headers covers that instead.
-  // output: 'export',
+  // With output: 'export' Next writes plain static files to ./out.
+  ...(isStaticExport ? { output: 'export' } : {}),
+
+  // Serves /impressum as /impressum/index.html — the safest shape for any
+  // static host, GitHub Pages included.
+  trailingSlash: true,
+
+  basePath,
+
   typescript: {
     ignoreBuildErrors: true,
   },
+
+  // Required for static export: there is no server to optimise images.
   images: {
     unoptimized: true,
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: securityHeaders,
-      },
-    ]
-  },
+
+  // headers() needs a Next.js server, so it is incompatible with
+  // output: 'export' — including it there fails the build. On static hosting
+  // public/_headers covers the same policy (Cloudflare Pages, Netlify);
+  // GitHub Pages cannot send custom headers at all.
+  ...(isStaticExport
+    ? {}
+    : {
+        async headers() {
+          return [
+            {
+              source: '/:path*',
+              headers: securityHeaders,
+            },
+          ]
+        },
+      }),
 }
 
 export default nextConfig
