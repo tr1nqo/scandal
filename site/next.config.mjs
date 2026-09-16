@@ -12,7 +12,7 @@
 //   — репозиторий называется <логин>.github.io
 //   — подключён собственный домен (sonyascandal.com)
 // ---------------------------------------------------------------------------
-const basePath = '/skandal'
+const basePath = '/scandal'
 
 const nextConfig = {
   // Статический экспорт. next build кладёт готовый HTML в папку ./out
