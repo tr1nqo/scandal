@@ -1,0 +1,16 @@
+# Security headers for static hosting (Cloudflare Pages, Netlify).
+#
+# The headers in next.config.mjs are applied by the Next.js server. If the site
+# is exported as static files (output: 'export') and served by a CDN, that
+# server is not running — this file provides the same protection instead.
+# On Vercel it is simply ignored, since next.config.mjs already covers it.
+#
+# Keep both in sync if the policy changes.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self'; connect-src 'self' https://vitals.vercel-insights.com https://*.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
